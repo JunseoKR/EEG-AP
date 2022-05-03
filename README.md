@@ -1,5 +1,5 @@
 # EGG Project
 ## Arduino EGG Project
 ### Backyard Brains
-EGG Custom Arduino
+EGG Custom Leonardo Arduino Board
 - The Heart and Brain SpikerBox
