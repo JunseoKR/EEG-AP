@@ -1,3 +1,5 @@
+// 1차 수정 완료
+// AVR 코딩
 //
 // Heart & Brain based on Leonardo
 // V1.0
@@ -11,54 +13,70 @@
 
 #define CURRENT_SHIELD_TYPE "HWT:HBLEOSB;"
 
-
-#define BUFFER_SIZE 256  //sampling buffer size
+#define BUFFER_SIZE 256  //sampling buffer size - 버퍼 사이즈 샘플링
 #define SIZE_OF_COMMAND_BUFFER 30 //command buffer size
+#define CARRIER_PIN 13
+
 
 // defines for setting and clearing register bits
+// cbi 전처리
 #ifndef cbi
 #define cbi(sfr, bit) (_SFR_BYTE(sfr) &= ~_BV(bit))
 #endif
+
+// sbi 전처리
 #ifndef sbi
 #define sbi(sfr, bit) (_SFR_BYTE(sfr) |= _BV(bit))
 #endif
 
+
+
+
 int buffersize = BUFFER_SIZE;
-int head = 0;//head index for sampling circular buffer
-int tail = 0;//tail index for sampling circular buffer
-byte writeByte;
-char commandBuffer[SIZE_OF_COMMAND_BUFFER];//receiving command buffer
+int head = 0; //head index for sampling circular buffer
+int tail = 0; //tail index for sampling circular buffer
+byte writeByte; //8bit type
+char commandBuffer[SIZE_OF_COMMAND_BUFFER]; //receiving command buffer
 byte reading[BUFFER_SIZE]; //Sampling buffer
 #define ESCAPE_SEQUENCE_LENGTH 6
 byte escapeSequence[ESCAPE_SEQUENCE_LENGTH] = {255,255,1,1,128,255};
 byte endOfescapeSequence[ESCAPE_SEQUENCE_LENGTH] = {255,255,1,1,129,255};
 
-#define CARRIER_PIN 13
+
+
 
 /// Interrupt number - very important in combination with bit rate to get accurate data
-int interrupt_Number=198;// Output Compare Registers  value = (16*10^6) / (Fs*8) - 1  set to 1999 for 1000 Hz sampling, set to 3999 for 500 Hz sampling, set to 7999 for 250Hz sampling, 199 for 10000 Hz Sampling
-int numberOfChannels = 1;//current number of channels sampling
+// 데이터 처리 (정확도)
+// Output Compare Registers  value = (16*10^6) / (Fs*8) - 1  set to 1999 for 1000 Hz sampling, set to 3999 for 500 Hz sampling, set to 7999 for 250Hz sampling, 199 for 10000 Hz Sampling
+// 출력 비교 레지스터 값 = (16*10^6) / (Fs*8)
+int interrupt_Number=198;
+int numberOfChannels = 1; //current number of channels sampling
 int tempSample = 0; 
-int commandMode = 0;//flag for command mode. Don't send data when in command mode
+int commandMode = 0;  //flag for command mode. Don't send data when in command mode
 
-void setup(){ 
+
+
+void setup()
+{
   Serial.begin(230400); //Serial communication baud rate (alt. 115200)
-  //while (!Serial)
-  //{}  // wait for Serial comms to become ready
-  delay(300); //whait for init of serial
-  Serial.println("StartUp!");
+  delay(300);
+  Serial.println("StartUp");
   Serial.setTimeout(2);
   pinMode(CARRIER_PIN, OUTPUT);//PB6 - pin 10
+
    
   // TIMER SETUP- the timer interrupt allows preceise timed measurements of the reed switch
-  //for mor info about configuration of arduino timers see http://arduino.cc/playground/Code/Timer1
-  cli();//stop interrupts
+  // AVR Interrupt 명령어 사용
+  // https://m.blog.naver.com/PostView.naver?isHttpsRedirect=true&blogId=msyang59&logNo=220060455656
+  // https://article2.tistory.com/1035
+  // cli(), sei()
+  cli(); //stop interrupts
 
   //Make ADC sample faster. Change ADC clock
   //Change prescaler division factor to 16
-  sbi(ADCSRA,ADPS2);//1
-  cbi(ADCSRA,ADPS1);//0
-  cbi(ADCSRA,ADPS0);//0
+  sbi(ADCSRA, ADPS2);//1
+  cbi(ADCSRA, ADPS1);//0
+  cbi(ADCSRA, ADPS0);//0
 
   //set timer1 interrupt at 10kHz
   TCCR1A = 0;// set entire TCCR1A register to 0
@@ -72,7 +90,9 @@ void setup(){
   // enable timer compare interrupt
   TIMSK1 |= (1 << OCIE1A);
   
-  sei();//allow interrupts
+  sei(); //allow interrupts
+
+
   //END TIMER SETUP
   TIMSK1 |= (1 << OCIE1A);
 }
@@ -82,7 +102,7 @@ void setup(){
 
 ISR(TIMER1_COMPA_vect) 
 {
-   PORTC ^= B10000000;//generate 5kHz carrier signal for AM modulation on D13 (bit 7 on port C)
+   PORTC ^= B10000000;  //generate 5kHz carrier signal for AM modulation on D13 (bit 7 on port C)
    
    if(commandMode!=1)
    {
@@ -111,6 +131,8 @@ ISR(TIMER1_COMPA_vect)
    
 }
   
+
+
 
 //push message to main sending buffer
 //timer for sampling must be dissabled when 
