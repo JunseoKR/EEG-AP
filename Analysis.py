@@ -15,17 +15,20 @@ import pandas as pd
 # EEG Main Set
 
 # 파일 불러오기
-file = r'C:\\Users\\Develop\\Documents\\BYB\\Sample.wav'
+file = r'C:\\Users\\Develop\\Documents\\BYB\\Sample 2.wav'
 # scipy.io.wavefile 모듈
 fs, data = waves.read(file)
+
 
 # numpy 차원 재배열
 length_data=np.shape(data)
 length_new=length_data[0]*0.05
 ld_int=int(length_new)
 
+
 # scipy 데이터 resample
 data_new=signal.resample(data, ld_int)
+
 
 # Matplot 그래프 생성
 plt.figure('Spectrogram')
@@ -50,6 +53,7 @@ df = pd.read_csv("Frequencies.csv", header=None, index_col=None)
 df.columns = ["Frequencies"]
 df.to_csv("Frequencies.csv", index=False)
 
+
 # 파형 주파수 선택
 position_vector=[]
 length_f=np.shape(f)
@@ -58,14 +62,13 @@ for i in range(0, l_row_f):
     if f[i]>=20 and f[i]<=30:
         position_vector.append(i)
 
-print(position_vector)
-
 
 length_d=np.shape(d)
 l_col_d=length_d[1]
 AlphaRange=[]
 for i in range(0,l_col_d):
     AlphaRange.append(np.mean(d[position_vector[0]:max(position_vector)+1,i]))
+
 
 # Savitzky-Golay 노이즈 제거
 def smoothTriangle(data, degree):
@@ -81,6 +84,7 @@ def smoothTriangle(data, degree):
         smoothed.append(smoothed[-1])
     return smoothed
 
+
 # Matplot 그래프 생성
 plt.figure('AlphaRange')
 y=smoothTriangle(AlphaRange, 100)
@@ -88,6 +92,7 @@ plt.plot(t, y)
 plt.xlabel('Time [s]')
 plt.xlim(0,max(t))
 plt.show()
+
 
 datosy=np.asarray(y)
 datosyt=np.array(
@@ -98,7 +103,8 @@ datosyt=np.array(
 with open ('datosyt.csv', 'w', newline='') as file:
     writer=csv.writer(file, dialect='excel-tab')
     writer.writerows(datosyt.T)
-    
+
+
 # CSV 헤더 생성
 df = pd.read_csv("datosyt.csv", header=None, index_col=None)
 df.columns = ["Power                   Time"]
