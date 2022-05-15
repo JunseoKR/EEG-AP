@@ -1,6 +1,0 @@
-{
-    "sketch": "EGG-AP.ino",
-    "output": "build",
-    "board": "arduino:avr:uno",
-    "port": "COM5"
-}
