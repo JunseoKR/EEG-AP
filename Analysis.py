@@ -9,13 +9,55 @@ import pandas as pd
 
 
 
+# ---------------------------------------------------------------------
+# EEG Set
+Wave = {
+    'Delta' : {
+        'Range' : {
+            'Initial': 0,
+            'End' : 4
+        }
+    },
+    'Theta' : {
+        'Range' : {
+            'Initial': 4,
+            'End' : 8
+        }
+    },
+    'Alpha' : {
+        'Range' : {
+            'Initial': 8,
+            'End' : 12
+        }
+    },
+    'Beta' : {
+        'Range' : {
+            'Initial': 15,
+            'End' : 30
+        }
+    },
+    'Gamma' : {
+        'Range' : {
+            'Initial': 38,
+            'End' : 45
+        }
+    }
+}
 
+
+
+# ---------------------------------------------------------------------
+# Data Input
+
+WavFile = input("Wav File (With Filename Extension) : ")
+WaveRange = input("\n[ Wave Range ]\nDelta\nTheta\nAlpha\nBeta\nGamma\n\nSelect Wave Range : ")
+print("\nWav File : {}\nWave Range : {}".format(WavFile, WaveRange))
 
 # ---------------------------------------------------------------------
 # EEG Main Set
 
 # 파일 불러오기
-file = r'C:\\Users\\Develop\\Documents\\BYB\\Sample 2.wav'
+file = r'.\Wav Data\{}'.format(WavFile)
 # scipy.io.wavefile 모듈
 fs, data = waves.read(file)
 
@@ -58,16 +100,18 @@ df.to_csv("Frequencies.csv", index=False)
 position_vector=[]
 length_f=np.shape(f)
 l_row_f=length_f[0]
+Range1 = Wave['{}'.format(WaveRange)]['Range']['Initial']
+Range2 = Wave['{}'.format(WaveRange)]['Range']['End']
 for i in range(0, l_row_f):
-    if f[i]>=20 and f[i]<=30:
+    if f[i]>=Range1 and f[i]<=Range2:
         position_vector.append(i)
 
 
 length_d=np.shape(d)
 l_col_d=length_d[1]
-AlphaRange=[]
+Range=[]
 for i in range(0,l_col_d):
-    AlphaRange.append(np.mean(d[position_vector[0]:max(position_vector)+1,i]))
+    Range.append(np.mean(d[position_vector[0]:max(position_vector)+1,i]))
 
 
 # Savitzky-Golay 노이즈 제거
@@ -86,8 +130,8 @@ def smoothTriangle(data, degree):
 
 
 # Matplot 그래프 생성
-plt.figure('AlphaRange')
-y=smoothTriangle(AlphaRange, 100)
+plt.figure('{}Range'.format(WaveRange))
+y=smoothTriangle(Range, 100)
 plt.plot(t, y)
 plt.xlabel('Time [s]')
 plt.xlim(0,max(t))
@@ -100,15 +144,15 @@ datosyt=np.array(
         datosy,
         t
         ])
-with open ('datosyt.csv', 'w', newline='') as file:
+with open ('WaveData.csv', 'w', newline='') as file:
     writer=csv.writer(file, dialect='excel-tab')
     writer.writerows(datosyt.T)
 
 
 # CSV 헤더 생성
-df = pd.read_csv("datosyt.csv", header=None, index_col=None)
+df = pd.read_csv("WaveData.csv", header=None, index_col=None)
 df.columns = ["Power                   Time"]
-df.to_csv("datosyt.csv", index=False)
+df.to_csv("WaveData.csv", index=False)
 
 
 
@@ -150,4 +194,4 @@ eyes=np.array([eyesopen, eyesclosed])
 
 from scipy import stats
 result=stats.ttest_ind(eyesopen, eyesclosed, equal_var = False)
-print(result)
+#print(result)
