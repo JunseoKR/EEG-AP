@@ -32,9 +32,12 @@ Wave = {
     },
     'Beta' : {
         'Range' : {
-            'Initial': 15,
+            'Initial': 20,
             'End' : 30
         }
+        # SMR : 12Hz ~ 15Hz
+        # Mid-Beta : 15Hz ~ 20Hz
+        # High-Beta : 20Hz ~ 30Hz
     },
     'Gamma' : {
         'Range' : {
@@ -50,8 +53,23 @@ Wave = {
 # Data Input
 
 WavFile = input("Wav File (With Filename Extension) : ")
-WaveRange = input("\n[ Wave Range ]\nDelta\nTheta\nAlpha\nBeta\nGamma\n\nSelect Wave Range : ")
-print("\nWav File : {}\nWave Range : {}".format(WavFile, WaveRange))
+print("\n[ Wave Range ]\n\n[ Delta ]\n0 Hz ~ 4 Hz ( 1.3 Hz )\n\n[ Theta ]\n4 Hz ~ 8 Hz ( 6.3 Hz )\n\n[ Alpha ]\n8 Hz ~ 12 Hz ( 10.3 Hz )\n\n[ Beta ]\nSMR : 12 Hz ~ 15 Hz\nMid-Beta : 15 Hz ~ 18 Hz \nHigh-Beta : 20 Hz ~ 30 Hz\n\n[ Gamma ]\n38 Hz ~ 45 Hz ( 40 Hz )\n")
+Initial = int(input("Initial Range : "))
+End = int(input("End Range : "))
+
+if Initial in range(0, 5):
+    WaveRange = "Delta"
+elif Initial in range(4, 9):
+    WaveRange = "Theta"
+elif Initial in range(8, 13):
+    WaveRange = "Alpha"
+elif Initial in range(12, 31):
+    WaveRange = "Beta"
+elif Initial in range(38, 46):
+    WaveRange = "Gamma"
+else:
+    WaveRange = ""
+print("\nWav File : {}\nWave : {}\nWave Range : {} Hz ~ {} Hz".format(WavFile, WaveRange ,Initial, End))
 
 # ---------------------------------------------------------------------
 # EEG Main Set
@@ -100,10 +118,8 @@ df.to_csv("Frequencies.csv", index=False)
 position_vector=[]
 length_f=np.shape(f)
 l_row_f=length_f[0]
-Range1 = Wave['{}'.format(WaveRange)]['Range']['Initial']
-Range2 = Wave['{}'.format(WaveRange)]['Range']['End']
 for i in range(0, l_row_f):
-    if f[i]>=Range1 and f[i]<=Range2:
+    if f[i]>=Initial and f[i]<=End:
         position_vector.append(i)
 
 
