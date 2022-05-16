@@ -155,7 +155,6 @@ plt.show()
 
 
 datosy=np.asarray(y)
-print(datosy)
 datosyt=np.array(
         [
         datosy,
