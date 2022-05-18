@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+import os
 import numpy as np
 import matplotlib.pyplot as plt
 import scipy.io.wavfile as waves
@@ -52,7 +53,7 @@ Wave = {
 # ---------------------------------------------------------------------
 # Data Input
 
-WavFile = input("Wav File (With Filename Extension) : ")
+WavFile = input("Wav File (Without Filename Extension) : ")
 print("\n[ Wave Range ]\n\n[ Delta ]\n0 Hz ~ 4 Hz ( 1.3 Hz )\n\n[ Theta ]\n4 Hz ~ 8 Hz ( 6.3 Hz )\n\n[ Alpha ]\n8 Hz ~ 12 Hz ( 10.3 Hz )\n\n[ Beta ]\nSMR : 12 Hz ~ 15 Hz\nMid-Beta : 15 Hz ~ 18 Hz \nHigh-Beta : 20 Hz ~ 30 Hz\n\n[ Gamma ]\n38 Hz ~ 45 Hz ( 40 Hz )\n")
 Initial = int(input("Initial Range : "))
 End = int(input("End Range : "))
@@ -75,7 +76,7 @@ print("\nWav File : {}\nWave : {}\nWave Range : {} Hz ~ {} Hz".format(WavFile, W
 # EEG Main Set
 
 # 파일 불러오기
-file = r'.\Wav Data\{}'.format(WavFile)
+file = r'.\Wav Data\{}.wav'.format(WavFile)
 # scipy.io.wavefile 모듈
 fs, data = waves.read(file)
 
@@ -97,7 +98,7 @@ plt.ylim(0,90)
 plt.colorbar(label= "Power/Frequency")
 plt.ylabel('Frequency [Hz]')
 plt.xlabel('Time [s]')
-plt.show()
+#plt.show()
 
 
 
@@ -151,7 +152,8 @@ y=smoothTriangle(Range, 100)
 plt.plot(t, y)
 plt.xlabel('Time [s]')
 plt.xlim(0,max(t))
-plt.show()
+plt.ylim(0, 1000)
+#plt.show()
 
 
 datosy=np.asarray(y)
@@ -160,15 +162,15 @@ datosyt=np.array(
         datosy,
         t
         ])
-with open ('WaveData.csv', 'w', newline='') as file:
+with open ('[ {} ] {}.csv'.format(WavFile, WaveRange), 'w', newline='') as file:
     writer=csv.writer(file, dialect='excel-tab')
     writer.writerows(datosyt.T)
 
 
 # CSV 헤더 생성
-df = pd.read_csv("WaveData.csv", header=None, index_col=None)
+df = pd.read_csv("[ {} ] {}.csv".format(WavFile, WaveRange), header=None, index_col=None)
 df.columns = ["Power                   Time"]
-df.to_csv("WaveData.csv", index=False)
+df.to_csv("[ {} ] {}.csv".format(WavFile, WaveRange), index=False)
 
 
 
@@ -211,3 +213,5 @@ def Eyes():
     from scipy import stats
     result=stats.ttest_ind(eyesopen, eyesclosed, equal_var = False)
     #print(result)
+
+os.remove("Frequencies.csv")
