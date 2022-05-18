@@ -57,15 +57,15 @@ print("\n[ Wave Range ]\n\n[ Delta ]\n0 Hz ~ 4 Hz ( 1.3 Hz )\n\n[ Theta ]\n4 Hz 
 Initial = int(input("Initial Range : "))
 End = int(input("End Range : "))
 
-if Initial in range(0, 5):
+if Initial in range(0, 4):
     WaveRange = "Delta"
-elif Initial in range(4, 9):
+elif Initial in range(4, 8):
     WaveRange = "Theta"
-elif Initial in range(8, 13):
+elif Initial in range(8, 12):
     WaveRange = "Alpha"
-elif Initial in range(12, 31):
+elif Initial in range(12, 30):
     WaveRange = "Beta"
-elif Initial in range(38, 46):
+elif Initial in range(38, 45):
     WaveRange = "Gamma"
 else:
     WaveRange = ""
@@ -176,38 +176,38 @@ df.to_csv("WaveData.csv", index=False)
 
 # ---------------------------------------------------------------------
 # Eyes Closed / Eyes Open
+def Eyes():
+    tg=np.array([4.2552,14.9426, 23.2801,36.0951, 45.4738,59.3751, 72.0337,85.0831, max(t)+1])
 
-tg=np.array([4.2552,14.9426, 23.2801,36.0951, 45.4738,59.3751, 72.0337,85.0831, max(t)+1])
+    length_t=np.shape(t)
+    l_row_t=length_t[0]
+    eyesclosed=[]
+    eyesopen=[]
+    j=0  #initial variable to traverse tg
+    l=0  #initial variable to loop through the "y" data
+    for i in range(0, l_row_t):
+        if t[i]>=tg[j]:
+            
+            if j%2==0:
+                eyesopen.append(np.mean(datosy[l:i]))
+            if j%2==1:
+                eyesclosed.append(np.mean(datosy[l:i]))
+            l=i
+            j=j+1
 
-length_t=np.shape(t)
-l_row_t=length_t[0]
-eyesclosed=[]
-eyesopen=[]
-j=0  #initial variable to traverse tg
-l=0  #initial variable to loop through the "y" data
-for i in range(0, l_row_t):
-    if t[i]>=tg[j]:
-        
-        if j%2==0:
-            eyesopen.append(np.mean(datosy[l:i]))
-        if j%2==1:
-            eyesclosed.append(np.mean(datosy[l:i]))
-        l=i
-        j=j+1
+            
+    plt.figure('DataAnalysis')
+    plt.boxplot([eyesopen, eyesclosed], sym = 'ko', whis = 1.5)
+    plt.xticks([1,2], ['Eyes open', 'Eyes closed'], size = 'small', color = 'k')
+    plt.ylabel('AlphaPower')
+    #plt.show()
 
-        
-plt.figure('DataAnalysis')
-plt.boxplot([eyesopen, eyesclosed], sym = 'ko', whis = 1.5)
-plt.xticks([1,2], ['Eyes open', 'Eyes closed'], size = 'small', color = 'k')
-plt.ylabel('AlphaPower')
-#plt.show()
+    meanopen=np.mean(eyesopen)
+    meanclosed=np.mean(eyesclosed)
+    sdopen=np.std(eyesopen)
+    sdclosed=np.std(eyesclosed)
+    eyes=np.array([eyesopen, eyesclosed])
 
-meanopen=np.mean(eyesopen)
-meanclosed=np.mean(eyesclosed)
-sdopen=np.std(eyesopen)
-sdclosed=np.std(eyesclosed)
-eyes=np.array([eyesopen, eyesclosed])
-
-from scipy import stats
-result=stats.ttest_ind(eyesopen, eyesclosed, equal_var = False)
-#print(result)
+    from scipy import stats
+    result=stats.ttest_ind(eyesopen, eyesclosed, equal_var = False)
+    #print(result)
