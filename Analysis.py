@@ -1,10 +1,12 @@
 # -*- coding: utf-8 -*-
 
 import os
+
 import numpy as np
-import matplotlib.pyplot as plt
-import scipy.io.wavfile as waves
 from scipy import signal
+import scipy.io.wavfile as waves
+import matplotlib.pyplot as plt
+
 import csv
 import pandas as pd
 
@@ -98,7 +100,7 @@ plt.ylim(0,90)
 plt.colorbar(label= "Power/Frequency")
 plt.ylabel('Frequency [Hz]')
 plt.xlabel('Time [s]')
-#plt.show()
+plt.show()
 
 
 
@@ -120,7 +122,7 @@ position_vector=[]
 length_f=np.shape(f)
 l_row_f=length_f[0]
 for i in range(0, l_row_f):
-    if f[i]>=Initial and f[i]<=End:
+    if f[i]>=8 and f[i]<=12:
         position_vector.append(i)
 
 
@@ -152,8 +154,8 @@ y=smoothTriangle(Range, 100)
 plt.plot(t, y)
 plt.xlabel('Time [s]')
 plt.xlim(0,max(t))
-plt.ylim(0, 1000)
-#plt.show()
+plt.ylim(0, 2000)
+plt.show()
 
 
 datosy=np.asarray(y)
@@ -162,15 +164,19 @@ datosyt=np.array(
         datosy,
         t
         ])
-with open ('[ {} ] {}.csv'.format(WavFile, WaveRange), 'w', newline='') as file:
-    writer=csv.writer(file, dialect='excel-tab')
-    writer.writerows(datosyt.T)
+
+def TT():
+    with open ('[ {} ] {}.csv'.format(WavFile, WaveRange), 'w', newline='') as file:
+        writer=csv.writer(file, dialect='excel-tab')
+        writer.writerows(datosyt.T)
+TT()
 
 
 # CSV 헤더 생성
-df = pd.read_csv("[ {} ] {}.csv".format(WavFile, WaveRange), header=None, index_col=None)
-df.columns = ["Power                   Time"]
-df.to_csv("[ {} ] {}.csv".format(WavFile, WaveRange), index=False)
+def TTT():
+    df = pd.read_csv("[ {} ] {}.csv".format(WavFile, WaveRange), header=None, index_col=None)
+    df.columns = ["Power              time"]
+    df.to_csv("[ {} ] {}.csv".format(WavFile, WaveRange), index=False)
 
 
 
