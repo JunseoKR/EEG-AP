@@ -1,6 +1,4 @@
-import os
 import time
-import keyboard
 import pyautogui
 
 
@@ -10,19 +8,13 @@ class Auto(object):
     
     def Click(self, File):
         Locate = pyautogui.locateOnScreen(r'Auto-Record\{}.png'.format(File))
-        pyautogui.moveTo(Locate)
-        pyautogui.click()
-        return
-
-    def Record(self):
-        os.startfile(r'C:\Program Files (x86)\Backyard Brains\Spike Recorder\SpikeRecorder.exe')
-        time.sleep(5)
-        self.Click(File="Setting")
-        self.Click(File="Connect")
-        time.sleep(0.5)
-        if pyautogui.locateOnScreen(r'Auto-Record\Serial.png', confidence=0.5):
-            print("Connect The Serial")
+        pyautogui.click(Locate)
         
-
+    def Record(self):
+        t = int(input("Time : "))
+        self.Click("Record")
+        time.sleep(t)
+        self.Click("Record")
+        
 Run = Auto()
 Run.Record()
