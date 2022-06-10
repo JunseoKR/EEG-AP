@@ -1,0 +1,1 @@
+# [EGG-AN.py](EEG.AN.py) Can Analysis Only One EEG Data
