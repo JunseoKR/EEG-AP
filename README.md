@@ -70,10 +70,10 @@
 
 ## ✨ 참고문헌
 
-### [ 동아일보 ] [중고생 자살원인 1위는 ‘성적’…학업 스트레스 크다](https://www.donga.com/news/It/article/all/20150525/71446025/1)
+#### [ 동아일보 ] [중고생 자살원인 1위는 ‘성적’…학업 스트레스 크다](https://www.donga.com/news/It/article/all/20150525/71446025/1)
 
-### [ 연세대학교 의료공학연구센터 ] [뇌파 측정과 동적신경영상 이론 및 응용](http://cone.hanyang.ac.kr/bioest/kor/pds/shortterm_lecture.pdf)
+#### [ 연세대학교 의료공학연구센터 ] [뇌파 측정과 동적신경영상 이론 및 응용](http://cone.hanyang.ac.kr/bioest/kor/pds/shortterm_lecture.pdf)
 
-### [[ BackYard Brains ](https://github.com/BackyardBrains)]
-- ### [ The Heart and Brain SpikerBox ](https://backyardbrains.com/products/heartAndBrainSpikerBox)
-- ### [ Data Analysis for the EEG ](https://backyardbrains.com/products/files/Extracting_Frequency_Bands_EEG.pdf)
+#### [[ BackYard Brains ](https://github.com/BackyardBrains)]
+- #### [ The Heart and Brain SpikerBox ](https://backyardbrains.com/products/heartAndBrainSpikerBox)
+- #### [ Data Analysis for the EEG ](https://backyardbrains.com/products/files/Extracting_Frequency_Bands_EEG.pdf)
