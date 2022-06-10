@@ -1,1 +1,1 @@
-# Analyzed Datas By [EEG-AP.py](EEG-AP.py)
+# Analyzed Data By [EEG-AP.py](EEG-AP.py)
