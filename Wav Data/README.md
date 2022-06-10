@@ -1,1 +1,1 @@
-# Measured EEG Datas By BackYard Brain Heart and Brain SpikerBox
+# Measured EEG Data By BackYard Brain Heart and Brain SpikerBox
