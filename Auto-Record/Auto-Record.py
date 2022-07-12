@@ -7,7 +7,7 @@ class Auto(object):
         pass
     
     def Click(self, File):
-        Locate = pyautogui.locateOnScreen(r'Auto-Record\{}.png'.format(File))
+        Locate = pyautogui.locateOnScreen(r'{}.png'.format(File))
         pyautogui.click(Locate)
         
     def Record(self):

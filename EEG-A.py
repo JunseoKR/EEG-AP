@@ -14,19 +14,24 @@ class Form():
     f: numpy.ndarray = ''
     t: numpy.ndarray = ''
     im: matplotlib = ''
-    y: list = ''
+    y1: list = ''
+    y2: list = ''
 
 
-Inf = 8
-Enf = 12
+# Data Grouping
 Grouping = 100
+
+# Wave Range
 WaveRange = "Alpha"
+
+# WaveFiles
 WAVFile = [
-    "",
-    "S1_A1",
-    "S1_A2"
+    "Empty",
+    "S3_A1",
+    "S3_B1",
 ]
 WAVNUM = len(WAVFile)
+
 
 # WAV Data Structure Set
 for i in range(1, WAVNUM):
@@ -39,10 +44,13 @@ for n in range(1, WAVNUM):
     eval('S'+str(n)).d, eval('S'+str(n)).f, eval('S'+str(n)).t, eval('S'+str(n)).im = Sampling_Process(eval('WAVData_'+str(n)))
     
     # FFT Process
-    eval('S'+str(n)).y = FFT_Process(eval('S'+str(n)).d, eval('S'+str(n)).f, eval('S'+str(n)).t, eval('S'+str(n)).im, Inf, Enf)
+    # Alpha
+    eval('S'+str(n)).y1 = FFT_Process(eval('S'+str(n)).d, eval('S'+str(n)).f, eval('S'+str(n)).t, eval('S'+str(n)).im, 8, 12)
+    eval('S'+str(n)).y2 = FFT_Process(eval('S'+str(n)).d, eval('S'+str(n)).f, eval('S'+str(n)).t, eval('S'+str(n)).im, 4, 8)
 
     # Data Process
-    DATA_Process(eval('S'+str(n)).y, eval('S'+str(n)).t, WAVFile, Grouping, WaveRange)
+    DATA_Process(eval('S'+str(n)).y1, eval('S'+str(n)).t, WAVFile[n], Grouping, "Alpha")
+    DATA_Process(eval('S'+str(n)).y2, eval('S'+str(n)).t, WAVFile[n], Grouping, "Beta")
 
 
 GraphColor = ["red", "orange", "yellow", "green", "blue", "pink", "purple"]
@@ -53,8 +61,10 @@ plt.ylabel('{} Power'.format((WaveRange)))
 plt.ylim(0, 2000)
 
 # Plot Section
-plt.plot(S1.t, S1.y, label='S1_A1', color=GraphColor[0])
-plt.plot(S2.t, S2.y, label='S1_A2', color=GraphColor[1])
+plt.plot(S1.t, S1.y1, label='S3_A1_A', color=GraphColor[0])
+plt.plot(S1.t, S1.y2, label='S3_A1_B', color=GraphColor[1])
+plt.plot(S2.t, S2.y1, label='S3_B1_A', color=GraphColor[2])
+plt.plot(S2.t, S2.y2, label='S3_B1_B', color=GraphColor[3])
 
 plt.legend()
 plt.show()
