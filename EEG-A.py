@@ -28,7 +28,7 @@ WaveRange = "Alpha"
 WAVFile = [
     "Empty",
     "S3_A1",
-    "S3_B1",
+    "S3_B1"
 ]
 WAVNUM = len(WAVFile)
 
@@ -46,11 +46,11 @@ for n in range(1, WAVNUM):
     # FFT Process
     # Alpha
     eval('S'+str(n)).y1 = FFT_Process(eval('S'+str(n)).d, eval('S'+str(n)).f, eval('S'+str(n)).t, eval('S'+str(n)).im, 8, 12)
-    eval('S'+str(n)).y2 = FFT_Process(eval('S'+str(n)).d, eval('S'+str(n)).f, eval('S'+str(n)).t, eval('S'+str(n)).im, 4, 8)
+    eval('S'+str(n)).y2 = FFT_Process(eval('S'+str(n)).d, eval('S'+str(n)).f, eval('S'+str(n)).t, eval('S'+str(n)).im, 20, 30)
 
     # Data Process
-    DATA_Process(eval('S'+str(n)).y1, eval('S'+str(n)).t, WAVFile[n], Grouping, "Alpha")
-    DATA_Process(eval('S'+str(n)).y2, eval('S'+str(n)).t, WAVFile[n], Grouping, "Beta")
+    #DATA_Process(eval('S'+str(n)).y1, eval('S'+str(n)).t, WAVFile[n], Grouping, "Alpha")
+    #DATA_Process(eval('S'+str(n)).y2, eval('S'+str(n)).t, WAVFile[n], Grouping, "Beta")
 
 
 GraphColor = ["red", "orange", "yellow", "green", "blue", "pink", "purple"]
