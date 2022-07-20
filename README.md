@@ -1,11 +1,17 @@
 # EEG-AP
 ## 🏫 Taejang High School / 태장고등학교
 
+
+
 <br/>
 
 * * *
 
 # 📄 융합탐구 프로젝트
+
+<h2><b><div align="center"><a href="https://junseokr.notion.site/65a68e10ad714cb1aa8a5ab8551abe7f">
+    📄 Project Report 〔 Notion 〕
+</a></div></b></h2>
 
 <br/>
 
