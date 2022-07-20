@@ -1,5 +1,8 @@
 # -*- coding: utf-8 -*-
 
+# EEG Double Analysis
+# 2 EEG 데이터 분석
+
 import os
 
 import numpy as np

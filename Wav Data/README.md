@@ -1,1 +1,4 @@
-# Measured EEG Data By BackYard Brain Heart and Brain SpikerBox
+# EEG Data Measured Under Variable Measured By BackYard Brain Heart and Brain SpikerBox
+
+## 30s
+## .WAV Data

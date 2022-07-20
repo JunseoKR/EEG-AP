@@ -1,5 +1,8 @@
 # -*- coding: utf-8 -*-
 
+# EEG Comparative Analysis
+# EEG 비교 분석
+
 import numpy
 import matplotlib
 from dataclasses import dataclass

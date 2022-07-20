@@ -1,5 +1,8 @@
 # -*- coding: utf-8 -*-
 
+# EEG Multiplex Analysis
+# EEG 다중 분석
+
 import numpy
 import matplotlib
 from dataclasses import dataclass

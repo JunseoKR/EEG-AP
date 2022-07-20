@@ -1,5 +1,8 @@
 # -*- coding: utf-8 -*-
 
+# EEG Single Analysis
+# 단일 EEG 분석
+
 import os
 
 import numpy as np
