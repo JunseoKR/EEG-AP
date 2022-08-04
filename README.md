@@ -1,5 +1,5 @@
 # EEG-AP
-## 🏫 Taejang High School / 태장고등학교 [ 3 ]
+## 🏫 Taejang High School / 태장고등학교 [ 3학년 ]
 ## Korean
 
 <br/>
